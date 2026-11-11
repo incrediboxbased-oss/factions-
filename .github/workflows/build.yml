@@ -37,6 +37,10 @@ jobs:
           fi
           echo "PROJECT_DIR=$(dirname "$BUILD_FILE")" >> "$GITHUB_ENV"
 
+      - name: Fix RaiderEntity import
+        run: |
+          sed -i 's/net.minecraft.entity.mob.RaiderEntity/net.minecraft.entity.raid.RaiderEntity/' "$PROJECT_DIR/src/main/java/com/example/factions/FactionsMod.java"
+
       - name: Build mod
         run: gradle build
         working-directory: ${{ env.PROJECT_DIR }}
