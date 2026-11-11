@@ -37,9 +37,12 @@ jobs:
           fi
           echo "PROJECT_DIR=$(dirname "$BUILD_FILE")" >> "$GITHUB_ENV"
 
-      - name: Fix RaiderEntity import
+      - name: Fix Minecraft imports
         run: |
-          sed -i 's/net.minecraft.entity.mob.RaiderEntity/net.minecraft.entity.raid.RaiderEntity/' "$PROJECT_DIR/src/main/java/com/example/factions/FactionsMod.java"
+          find "$PROJECT_DIR/src/main/java" -name '*.java' -exec sed -i \
+            -e 's/net.minecraft.entity.mob.RaiderEntity/net.minecraft.entity.raid.RaiderEntity/g' \
+            -e 's/net.minecraft.item.ModelTransformationMode/net.minecraft.client.render.model.json.ModelTransformationMode/g' \
+            {} +
 
       - name: Build mod
         run: gradle build
